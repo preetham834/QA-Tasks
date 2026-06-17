@@ -43,11 +43,11 @@ public class CommonSteps : Baseclass
     [Given("I navigates to {string} page")]
     public async Task GivenINaviagates(String pagename)
     {
-        var reader = new ConfigReader();
+        //var reader = new ConfigReader();
 
         //if (!reader.ShouldRun(pagename))
         //    Assert.Ignore("Not valid for current environment");
-        //var url = reader.GetUrl();
+        //var url = reader.GetUrl(pagename);
         var url = UrlMap.urls[pagename];
         await Navigate(url);
     }

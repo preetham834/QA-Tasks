@@ -8,22 +8,22 @@ public class ConfigReader
     {
     config = new ConfigurationBuilder().AddJsonFile("settings.json").Build();
     }
-    public string GetUrl()
+    public string GetUrl(string pageName)
     {
         var env = config["Environment"];//DEV
-        return config[$"Environments:{env}"];//urls
+        return config[$"Environments:{env}:{pageName}"];//urls
     }
 
-    public bool ShouldRun(string pageName)
-    {
-        var env = config["Environment"];
-        var allowedPage = config[$"Environments:{env}"]
-                            .Split('/')
-                            .Last()
-                            .ToLower();
+    //public bool ShouldRun(string pageName)
+    //{
+    //    var env = config["Environment"];
+    //    var allowedPage = config[$"Environments:{env}"]
+    //                        .Split('/')
+    //                        .Last()
+    //                        .ToLower();
 
-        return pageName.ToLower() == allowedPage;
-    }
+    //    return pageName.ToLower() == allowedPage;
+    //}
 
 
 }

@@ -1,8 +1,12 @@
 {
-    "Environment":"QA",
-    
-    "Environments": {
-        "QA":"https://demoqa.com/textbox",
-        "Dev":"https://demoqa.com/buttons"
+  "Environment": "QA",
+  "Environments": {
+    "QA": {
+      "textbox": "https://demoqa.com/text-box",
+      "buttons": "https://demoqa.com/buttons"
+    },
+    "Dev": {
+      "checkbox":"https://demoqa.com/checkbox"
+    }
   }
 }
