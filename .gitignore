@@ -1,0 +1,8 @@
+.vs/
+bin/
+obj/
+Debug/
+.playwright/
+allure-report/
+test-results/
+*.log

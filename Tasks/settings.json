@@ -1,0 +1,8 @@
+{
+    "Environment":"QA",
+    
+    "Environments": {
+        "QA":"https://demoqa.com/textbox",
+        "Dev":"https://demoqa.com/buttons"
+  }
+}
