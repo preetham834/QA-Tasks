@@ -9,10 +9,15 @@ using static Microsoft.Playwright.Assertions;
 using CsvHelper;
 
 [Binding]
-public class ModalTest:Baseclass
+public class ModalTest
 {
     private Dialog dialog;
     private Button button;
+    private IPage page;
+    public ModalTest(ScenarioContext scenario)
+    {
+        page = (IPage)scenario["PAGE"];
+    }
     [When("I click on dialog {string} button")]
     public async Task WhenIClickonDialogbuttons(string buttonName)
     {

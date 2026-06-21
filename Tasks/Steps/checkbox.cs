@@ -6,9 +6,16 @@ using pages;
 using buttonnnss;
 
 [Binding]
-public class Checkboxtest:Baseclass
+public class Checkboxtest
 {
+    private readonly IPage page;
     private Checkbox check;
+    public Checkboxtest(ScenarioContext scenario)
+    {
+        page = (IPage)scenario["PAGE"];
+
+
+    }
     [When("I select {string} checkbox")]
     public async Task Check(string buttoname)
     {

@@ -13,7 +13,7 @@ using Reqnroll.Formatters.PubSub;
 namespace Commons;
 
 [Binding]
-public class CommonSteps : Baseclass
+public class CommonSteps 
 {
 
     private TextBox textbox;
@@ -25,13 +25,12 @@ public class CommonSteps : Baseclass
 
     // private ConfigReader Reader;
 
-    //  private readonly IPage page;
+      private readonly IPage page;
 
-    /*public CommonSteps(IPage page)
+    public CommonSteps(ScenarioContext scenario)
     {
-        this.page=page;
-    }*/
-
+         page = (IPage)scenario["PAGE"];
+    }
     public async Task Navigate(String url)
     {
         await page.GotoAsync(url);

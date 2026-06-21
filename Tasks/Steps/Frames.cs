@@ -5,9 +5,14 @@ using Reqnroll;
 using pages;
 using buttonnnss;
 [Binding]
-public class FrameTest : Baseclass
+public class FrameTest
 {
     private Frames frame;
+    private IPage page;
+    public FrameTest(ScenarioContext scenario)
+    {
+        page = (IPage)scenario["PAGE"];
+    }
     [Then("I should see {string} in frame {string}")]
     public async Task FrameValidation(string expected,string field)
     {

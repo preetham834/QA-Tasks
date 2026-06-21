@@ -6,8 +6,13 @@ using Locators;
 using Reqnroll;
 using buttonnnss;
 [Binding]
-public class FileTest:Baseclass
+public class FileTest
 {
+    private IPage page;
+    public FileTest(ScenarioContext scenario)
+    {
+        page = (IPage)scenario["PAGE"];
+    }
     private string downloadPath;
     [When("I upload {string} file in {string}")]
     public async Task Upload(string filename,string field)

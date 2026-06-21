@@ -1,6 +1,6 @@
 using Microsoft.Playwright;
 using NUnit;
-
+namespace Logs;
 public class Debugger
 {
     private IPage page;

@@ -11,9 +11,14 @@ using Urls;
 using buttonnnss;
 
 [Binding]
-public class TableTest : Baseclass
+public class TableTest
 {
     private WebTables tab;
+    private IPage page;
+    public TableTest(ScenarioContext scenario)
+    {
+        page = (IPage)scenario["PAGE"];
+    }
     [When("I add record {string} {string} {string} {string} {string} {string}")]
     public async Task WhenIAddRecord(string first,string last, string email,string age,string salary,string dept)
     {

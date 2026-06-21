@@ -11,9 +11,14 @@ using pages;
 
 [AllureNUnit]  
 [Binding]
-public class Text:Baseclass
+public class Text
 {   
     private TextBox textbox;
+    private IPage page;
+    public Text(ScenarioContext scenario)
+    {
+        page = (IPage)scenario["PAGE"];
+    }
     [Then("I should see {string} in {string}")]
    public async Task ThenIShouldSeeInField(string expectedValue, string field)
    {

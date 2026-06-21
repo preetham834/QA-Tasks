@@ -8,13 +8,18 @@ using Urls;
 using buttonnnss;
 using itemss;
 [Binding]
-public class SortTest : Baseclass
+public class SortTest
 {
 
     private IReadOnlyList<string> beforeOrder;
     private Sortable sort;
+    private IPage page;
+    public SortTest(ScenarioContext scenario)
+    {
+        page = (IPage)scenario["PAGE"];
+    }
 
-        [When("I reorder {string} to {string}")]
+    [When("I reorder {string} to {string}")]
         public async Task WhenIReorder(string source, string dest)
         {
         beforeOrder = await page.Locator(".vertical-list-container .list-group-item").AllTextContentsAsync();

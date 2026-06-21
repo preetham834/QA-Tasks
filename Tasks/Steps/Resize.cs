@@ -6,10 +6,15 @@ using Urls;
 using pages;
 
 [Binding]
-public class ResizeTest:Baseclass
+public class ResizeTest
 {
 
     private Resize resize;
+    private IPage page;
+    public ResizeTest(ScenarioContext scenario)
+    {
+        page = (IPage)scenario["PAGE"];
+    }
     [When("I Resize the box")]
     public async Task Resize()
     {

@@ -5,10 +5,15 @@ using Reqnroll;
 using pages;
 using buttonnnss;
 [Binding]
-public class Radiotest : Baseclass
+public class Radiotest
 {
 	private Radiobutton radio;
-	[When("I select {string} radio button")]
+    private IPage page;
+    public Radiotest(ScenarioContext scenario)
+    {
+        page = (IPage)scenario["PAGE"];
+    }
+    [When("I select {string} radio button")]
 	public async Task Radio(string buttonname)
 	{
 		radio = new Radiobutton(page);

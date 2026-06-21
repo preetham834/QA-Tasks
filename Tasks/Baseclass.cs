@@ -1,34 +1,37 @@
 using Microsoft.Playwright;
-using NUnit.Framework;
 using Reqnroll;
-[assembly: Parallelizable(ParallelScope.Fixtures)]
-[assembly: LevelOfParallelism(0)]
-public abstract class Baseclass
+using Logs;
+
+
+[assembly: Parallelizable(ParallelScope.All)]
+[assembly: LevelOfParallelism(5)]
+
+
+[Binding]
+public class Baseclass
 {
-    protected static IPlaywright playwright = null!;
-    protected static IBrowser browser = null!;
-    protected static IBrowserContext context = null!;
-    protected static IPage page = null!;
-    // private readonly AllureHelper helper;
-    protected int Retrycount = 3;
-    [BeforeScenario]
-    public async Task Setup()
+    private static IPlaywright playwright;
+    private static IBrowser browser;
+    private Debugger debug;
+
+    [BeforeTestRun]
+    public static async Task GlobalSetup()
     {
-
-        if (page != null && !page.IsClosed)
-        {
-            Console.WriteLine("Setup already executed, skipping...");
-            return;
-        }
-
         playwright = await Playwright.CreateAsync();
+
         browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
-            Headless = false,
-             SlowMo=1000
+            Headless = false
         });
 
-        context = await browser.NewContextAsync(new BrowserNewContextOptions
+        Console.WriteLine(" Single browser instance created");
+    }
+
+    [BeforeScenario]
+    public async Task Setup(ScenarioContext scenario)
+    {
+
+        var context = await browser.NewContextAsync(new BrowserNewContextOptions
         {
             RecordVideoDir = "videos"
         });
@@ -39,77 +42,50 @@ public abstract class Baseclass
             Sources = true
         });
 
-        page = await context.NewPageAsync();
+        var page = await context.NewPageAsync();
+        scenario["CONTEXT"] = context;
+        scenario["PAGE"] = page;
+
+        Console.WriteLine(" Scenario started");
     }
+
     [AfterScenario]
-    public async Task Teardown(ScenarioContext scenario)
+    public async Task TearDown(ScenarioContext scenario)
     {
-
-        if (page == null && context == null && browser == null)
-        {
-            return;
-        }
-
-        string scenarioName = scenario.ScenarioInfo.Title;
-
+        string s1 = scenario.ScenarioInfo.Title;
+        var context = (IBrowserContext)scenario["CONTEXT"];
+        var page = (IPage)scenario["PAGE"];
         var debug = new Debugger(page);
         var video = page?.Video;
-
-        try
+        if (!scenario.ContainsKey("CONTEXT"))
+            return;
+        if (scenario.TestError != null)
         {
-            if (context != null)
-            {
-                if (scenario.TestError != null)
-                {
-                    await context.Tracing.StopAsync(new() { Path = "trace.zip" });
-
-                    if (page != null)
-                    {
-                        await debug.CaptureScreenshot(scenarioName);
-                        await debug.CaptureLog(scenarioName, scenario.TestError.Message);
-                    }
-                }
-                else
-                {
-                    await context.Tracing.StopAsync();
-                }
-            }
-            if (page != null && !page.IsClosed)
-            {
-                await page.CloseAsync();
-            }
-            if (context != null)
-            {
-                await context.CloseAsync();
-            }
-            await Task.Delay(300); 
-            if (scenario.TestError != null && video != null)
-            {
-                await video.SaveAsAsync($"videos/{scenarioName}.webm");
-            }
+            await context.Tracing.StopAsync(new() { Path = "trace.zip" });
+            await debug.CaptureScreenshot(s1);
+            await debug.CaptureLog(s1, scenario.TestError.Message);
         }
-        catch (Exception ex)
+        else
         {
-            Console.WriteLine($"Teardown warning: {ex.Message}");
+            await context.Tracing.StopAsync();
         }
-        finally
+
+        await page.CloseAsync();
+        await context.CloseAsync();
+
+        if (scenario.TestError != null && video != null)
         {
-            try
-            {
-                if (browser != null)
-                {
-                    await browser.CloseAsync();
-                }
-            }
-            catch { }
-
-            try
-            {
-                playwright?.Dispose();
-            }
-            catch { }
-
-            Console.WriteLine(" Teardown completed safely");
+            await video.SaveAsAsync($"videos/{s1}.webm");
         }
+        Console.WriteLine($"Scenario completed");
+    }
+
+    [AfterTestRun]
+    public static async Task Cleanup()
+    {
+        await browser.CloseAsync();
+        playwright.Dispose();
+
+        Console.WriteLine(" Browser closed");
     }
 }

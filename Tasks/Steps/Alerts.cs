@@ -8,10 +8,16 @@ using Urls;
 using buttonnnss;
 
 [Binding]
-public class AlertTest : Baseclass
+public class AlertTest
 {
-
+    private readonly IPage page;
     private string randomValue;
+    public AlertTest(ScenarioContext scenario)
+    {
+         page = (IPage)scenario["PAGE"];
+         
+    }
+
 
     [When("I click on Prompt {string} button")]
     public async Task PAlerthandling(string buttonname)
