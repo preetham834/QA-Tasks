@@ -87,5 +87,6 @@ public class Baseclass
         playwright.Dispose();
 
         Console.WriteLine(" Browser is closed and playwright is disposed");
+        Console.WriteLine(" Browser is closed");
     }
 }
