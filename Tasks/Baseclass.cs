@@ -86,6 +86,6 @@ public class Baseclass
         await browser.CloseAsync();
         playwright.Dispose();
 
-        Console.WriteLine(" Browser closed");
+        Console.WriteLine(" Browser is closed");
     }
 }
