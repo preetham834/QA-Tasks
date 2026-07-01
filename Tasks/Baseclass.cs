@@ -46,7 +46,7 @@ public class Baseclass
         scenario["CONTEXT"] = context;
         scenario["PAGE"] = page;
 
-        Console.WriteLine(" Scenario started");
+        Console.WriteLine("Scenario started");
     }
 
     [AfterScenario]
