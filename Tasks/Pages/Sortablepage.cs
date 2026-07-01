@@ -25,7 +25,7 @@ public class Sortable
 
         await page.Mouse.DownAsync();
 
-        await page.WaitForTimeoutAsync(600);
+        await page.WaitForTimeoutAsync(800);
 
         await page.Mouse.MoveAsync(
             box1.X + box1.Width / 2 + 10,

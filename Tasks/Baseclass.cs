@@ -4,7 +4,7 @@ using Logs;
 
 
 [assembly: Parallelizable(ParallelScope.All)]
-[assembly: LevelOfParallelism(5)]
+[assembly: LevelOfParallelism(14)]
 
 
 [Binding]
@@ -24,7 +24,7 @@ public class Baseclass
             Headless = false
         });
 
-        Console.WriteLine(" Single browser instance created");
+        Console.WriteLine(" Single browser instance is created");
     }
 
     [BeforeScenario]
